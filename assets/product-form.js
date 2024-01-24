@@ -18,6 +18,16 @@ if (!customElements.get('product-form')) {
 
       onSubmitHandler(evt) {
         evt.preventDefault();
+        // Check for 'variant' parameter in the URL
+    if (variant_size > 1) {
+      let url = window.location.href; console.log('url', url);
+      let params = new URLSearchParams(url.split('?')[1]); console.log('params', params);
+      if (!params.has('variant')) {
+          // If 'variant' parameter doesn't exist, show error and exit the handler
+          alert('Please select the variant');
+          return false; // Exit the handler
+      }
+    }
         if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
 
         this.handleErrorMessage();
