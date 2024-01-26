@@ -6,6 +6,9 @@ if (!customElements.get('product-form')) {
         super();
 
         this.form = this.querySelector('form');
+        // get current product id
+        this.pro_id = this.form.querySelector('[name=product-id]').value;
+        
         this.form.querySelector('[name=id]').disabled = false;
         this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
         this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
@@ -61,7 +64,7 @@ if (!customElements.get('product-form')) {
               this.error = true;
               return;
             } else if (!this.cart) {
-              // add free product
+              // add free product when specific product add to cart
               
               if(FreeProductId != undefined && this.pro_id == 8998157418795 )
             {
@@ -92,6 +95,7 @@ if (!customElements.get('product-form')) {
             }
               return;
             }
+
 
             if (!this.error)
               publish(PUB_SUB_EVENTS.cartUpdate, {
