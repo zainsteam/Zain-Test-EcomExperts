@@ -64,7 +64,7 @@ if (!customElements.get('product-form')) {
               this.error = true;
               return;
             } else if (!this.cart) {
-              // add free product when specific product add to cart
+              // add free product
               
               if(FreeProductId != undefined && this.pro_id == 8998157418795 )
             {
@@ -85,7 +85,6 @@ if (!customElements.get('product-form')) {
                   })
                   .then(response => {
                     window.location = window.routes.cart_url;
-                    console.log(response.json())
                     return response.json();
                   })
                   .catch((error) => {
