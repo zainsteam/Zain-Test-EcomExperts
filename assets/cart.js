@@ -2,10 +2,13 @@ class CartRemoveButton extends HTMLElement {
   constructor() {
     super();
 
-    this.addEventListener('click', (event) => {
+     this.addEventListener('click', (event) => {
       event.preventDefault();
       const cartItems = this.closest('cart-items') || this.closest('cart-drawer-items');
-      cartItems.updateQuantity(this.dataset.index, 0);
+      console.log(this)
+       
+       cartItems.updateQuantity(this.dataset.index, 0,0,0,this.dataset.productId);
+      
     });
   }
 }
@@ -103,8 +106,9 @@ class CartItems extends HTMLElement {
     ];
   }
 
-  updateQuantity(line, quantity, name, variantId) {
+  updateQuantity(line, quantity, name, variantId, productId) {
     this.enableLoading(line);
+
 
     const body = JSON.stringify({
       line,
@@ -175,6 +179,11 @@ class CartItems extends HTMLElement {
         errors.textContent = window.cartStrings.error;
       })
       .finally(() => {
+        if (productId == 8998157418795 ){ 
+        const thistoo = document.querySelectorAll('[data-product-id="8998157320491"]');
+        const deletepro =  thistoo[0].closest('cart-items') || thistoo[0].closest('cart-drawer-items');
+        deletepro.updateQuantity(thistoo[0].dataset.index, 0);
+      }
         this.disableLoading(line);
       });
   }

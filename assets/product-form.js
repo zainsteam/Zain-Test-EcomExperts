@@ -6,6 +6,9 @@ if (!customElements.get('product-form')) {
         super();
 
         this.form = this.querySelector('form');
+        // get current product id
+        this.pro_id = this.form.querySelector('[name=product-id]').value;
+        
         this.form.querySelector('[name=id]').disabled = false;
         this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
         this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
@@ -61,9 +64,37 @@ if (!customElements.get('product-form')) {
               this.error = true;
               return;
             } else if (!this.cart) {
-              window.location = window.routes.cart_url;
+              // add free product
+              
+              if(FreeProductId != undefined && this.pro_id == 8998157418795 )
+            {
+                let formData = {
+                   "items": [{
+                    'id': FreeProductId,
+                    'quantity': 1,
+                    }]
+                  };
+
+                  
+                  fetch(window.Shopify.routes.root + 'cart/add.js', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                  })
+                  .then(response => {
+                    window.location = window.routes.cart_url;
+                    return response.json();
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
+
+            }
               return;
             }
+
 
             if (!this.error)
               publish(PUB_SUB_EVENTS.cartUpdate, {
